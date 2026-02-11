@@ -1,0 +1,9 @@
+-- Rollback: 001_initial
+
+DROP TABLE IF EXISTS defects;
+DROP TABLE IF EXISTS artifacts;
+DROP TABLE IF EXISTS runs;
+DROP TABLE IF EXISTS tickets;
+DROP TABLE IF EXISTS rulebooks;
+
+DROP EXTENSION IF EXISTS "uuid-ossp";

@@ -1,0 +1,40 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+/bin/
+foundry.exe
+partir-core.exe
+
+# Test output
+test_output.txt
+*.test
+*.out
+coverage.html
+
+# Environment
+.env
+.env.local
+.env.production
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Go
+/vendor/
+
+# Session files
+.partir/
+
+# Gemini/Agent artifacts
+.gemini/

@@ -1,0 +1,69 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Partir Gate Waiver",
+    "description": "Schema for waiver files that allow exceptions to gate checks",
+    "type": "object",
+    "required": [
+        "gate_id",
+        "justification",
+        "approved_by"
+    ],
+    "properties": {
+        "gate_id": {
+            "type": "string",
+            "description": "ID of the gate being waived (e.g., 'gate_d_parallel_impl')",
+            "examples": [
+                "gate_d_parallel_impl",
+                "gate_b_domain_term",
+                "gate_e_diff_budget"
+            ]
+        },
+        "justification": {
+            "type": "string",
+            "minLength": 50,
+            "description": "Detailed explanation why this waiver is necessary"
+        },
+        "approved_by": {
+            "type": "string",
+            "description": "Name/email of the person who approved this waiver"
+        },
+        "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Optional expiration date for this waiver"
+        },
+        "one_time_only": {
+            "type": "boolean",
+            "default": true,
+            "description": "If true, waiver is consumed after first use"
+        },
+        "scope": {
+            "type": "object",
+            "description": "Optional: limit waiver to specific files/patterns",
+            "properties": {
+                "allowed_files": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Specific file paths this waiver covers"
+                },
+                "allowed_patterns": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Glob patterns this waiver covers"
+                }
+            }
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "ticket_id": {
+            "type": "string",
+            "description": "Associated ticket ID"
+        }
+    }
+}

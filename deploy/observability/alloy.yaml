@@ -1,0 +1,64 @@
+// Grafana Alloy configuration for Partir Core
+// Receives OTLP telemetry and exports to Prometheus + Loki
+
+// OTLP receiver for traces and metrics
+otelcol.receiver.otlp "default" {
+  grpc {
+    endpoint = "0.0.0.0:4317"
+  }
+  http {
+    endpoint = "0.0.0.0:4318"
+  }
+  output {
+    metrics = [otelcol.processor.batch.default.input]
+    traces  = [otelcol.processor.batch.default.input]
+    logs    = [otelcol.processor.batch.default.input]
+  }
+}
+
+// Batch processor for efficiency
+otelcol.processor.batch "default" {
+  output {
+    metrics = [otelcol.exporter.prometheus.default.input]
+    traces  = [otelcol.exporter.otlp.tempo.input]
+    logs    = [otelcol.exporter.loki.default.input]
+  }
+}
+
+// Prometheus exporter (remote write to Prometheus)
+otelcol.exporter.prometheus "default" {
+  forward_to = [prometheus.remote_write.default.receiver]
+}
+
+prometheus.remote_write "default" {
+  endpoint {
+    url = "http://prometheus:9090/api/v1/write"
+  }
+}
+
+// Loki exporter for logs
+otelcol.exporter.loki "default" {
+  forward_to = [loki.write.default.receiver]
+}
+
+loki.write "default" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}
+
+// Tempo exporter for traces (stdout in dev, uncomment for Tempo)
+otelcol.exporter.otlp "tempo" {
+  client {
+    // For dev: just log traces
+    endpoint = "localhost:4317"
+    tls {
+      insecure = true
+    }
+  }
+}
+
+// Debug exporter (logs all telemetry to stdout)
+otelcol.exporter.debug "default" {
+  verbosity = "detailed"
+}
