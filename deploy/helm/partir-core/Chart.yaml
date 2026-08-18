@@ -1,8 +1,0 @@
-apiVersion: v2
-name: partir-core
-description: Partir Core - AI Content Factory Helm Chart
-type: application
-version: 0.1.0
-appVersion: "1.0.0"
-maintainers:
-  - name: Partir Team

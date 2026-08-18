@@ -1,0 +1,46 @@
+replicaCount: 1
+
+image:
+  repository: partir-core
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: ClusterIP
+  port: 9090
+
+env:
+  PARTIR_DB_URL: "postgres://partir:changeme@postgres:5432/partir?sslmode=disable"
+  NATS_URL: "nats://nats:4222"
+  PARTIR_MINIO_ENDPOINT: "minio:9000"
+  PARTIR_MINIO_BUCKET: "partir-artifacts"
+  PARTIR_METRICS_PORT: "9090"
+  PARTIR_MAX_CONCURRENT_TICKETS: "10"
+  PARTIR_MAX_TICKETS_PER_HOUR: "100"
+
+secrets:
+  PARTIR_JWT_SECRET: ""
+  PARTIR_MINIO_ACCESS_KEY: ""
+  PARTIR_MINIO_SECRET_KEY: ""
+
+resources:
+  limits:
+    cpu: "2"
+    memory: 2Gi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 9090
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: 9090
+  initialDelaySeconds: 10
+  periodSeconds: 5

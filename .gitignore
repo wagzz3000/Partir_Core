@@ -5,8 +5,9 @@
 *.so
 *.dylib
 /bin/
-foundry.exe
-partir-core.exe
+
+# Archives (may contain secrets or built artifacts)
+*.tar.gz
 
 # Test output
 test_output.txt
@@ -18,6 +19,10 @@ coverage.html
 .env
 .env.local
 .env.production
+
+# Secrets
+secrets/
+reset_pwd.sql
 
 # IDE
 .idea/
